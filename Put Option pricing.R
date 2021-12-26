@@ -50,9 +50,9 @@ number_of_units<- round(1/(delta/cover_ratio)) #of warrants to buy to get exposu
 times_cover<- 0.5 #4545/27385
 
 instrument <-  c('STXCFD','STDCFD'  ,'STFCFD',"Cash"   ,"Dummy")
-quantity <-    c(860     ,272083    ,1680    ,102992.39,1)
-init_margin <- c(9.88     ,0.46      ,3.02    ,1        ,0)
-leverage <-    c(6.08    ,6.06      ,6.00    ,0        ,1)
+quantity <-    c(860     ,272083    ,1680    ,153476.7,1)
+init_margin <- c(10.92     ,0.5      ,3.22    ,1        ,0)
+leverage <-    c(6.00    ,6.06      ,6.02    ,0        ,1)
 
 portfolio_summary <- data.frame(instrument, quantity, init_margin, leverage)
 portfolio_summary$margin <- portfolio_summary$quantity * portfolio_summary$init_margin
@@ -65,8 +65,9 @@ exposure_coverage <- 1/portfolio_gearing
 
 close_out<- ((sum(portfolio_summary$margin)-portfolio_summary$margin[4])*auto_close_out_ratio) + portfolio_summary$margin[4]
 close_out_margin_value <- ((sum(portfolio_summary$margin)-portfolio_summary$margin[4])*(1-auto_close_out_ratio)) 
-
-close_out_max_drawdown<- 1-(exposure - close_out)/exposure
+total_margin_ex_cash<-sum(portfolio_summary$margin)-portfolio_summary$margin[4]
+total_margin_incl_cash <- sum(portfolio_summary$margin)
+close_out_max_drawdown <- 1-(exposure - close_out)/exposure
 close_out_max_drawdown
 
 #view(portfolio_summary)
