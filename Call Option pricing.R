@@ -21,7 +21,7 @@ K<- 63000/gearing
 cover_ratio <- 6000
 b<- 0.99 #as.numeric(CoVariance(stx40$STX40.JO.Close,J203$J203.JO.Close)/var(J203$J203.JO.Close))
 
-rfr = 0.3 #this is my "hurdle" rate
+rfr = 0.16 #this is my "hurdle" rate
 
 S=as.numeric(last(stx40$STX40.JO.Close))*10/gearing
 T = as.numeric(expiry_date - today(tzone = ""))/365 #ratio of time to expiry of option

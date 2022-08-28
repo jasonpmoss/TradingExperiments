@@ -32,15 +32,15 @@ income_tax<-0.4
 cash_savings <- 50000
 
 option_type<- "p"
-expiry_date<- date("2021-11-02")
-delta <- 0.2584
-gearing <- 7.04
-option_market_price <- 0.42
-K= 54000/gearing
+expiry_date<- date("2022-06-02")
+delta <- 0.3119
+gearing <- 9.5
+option_market_price <- 0.03
+K= 66000/gearing
 cover_ratio <- 6000
 b<- 0.99 #as.numeric(CoVariance(stx40$STX40.JO.Close,J203$J203.JO.Close)/var(J203$J203.JO.Close))
 
-rfr = 0.16 #this is my "hurdle" rate
+rfr = 0.08 #this is my "hurdle" rate
 
 S=as.numeric(last(stx40$STX40.JO.Close))*10/gearing
 T = as.numeric(expiry_date - today(tzone = ""))/365 #ratio of time to expiry of option
@@ -50,9 +50,9 @@ number_of_units<- round(1/(delta/cover_ratio)) #of warrants to buy to get exposu
 times_cover<- 0.5 #4545/27385
 
 instrument <-  c('STXCFD','STDCFD'  ,'STFCFD',"Cash"   ,"Dummy")
-quantity <-    c(860     ,272083    ,1680    ,153476.7,1)
-init_margin <- c(10.92     ,0.5      ,3.22    ,1        ,0)
-leverage <-    c(6.00    ,6.06      ,6.02    ,0        ,1)
+quantity <-    c(860     ,282083    ,1680    ,181719.46,1)
+init_margin <- c(11.16     ,0.58      ,3.63    ,1        ,0)
+leverage <-    c(5.72    ,5.62      ,5.72    ,0        ,1)
 
 portfolio_summary <- data.frame(instrument, quantity, init_margin, leverage)
 portfolio_summary$margin <- portfolio_summary$quantity * portfolio_summary$init_margin
@@ -65,7 +65,7 @@ exposure_coverage <- 1/portfolio_gearing
 
 close_out<- ((sum(portfolio_summary$margin)-portfolio_summary$margin[4])*auto_close_out_ratio) + portfolio_summary$margin[4]
 close_out_margin_value <- ((sum(portfolio_summary$margin)-portfolio_summary$margin[4])*(1-auto_close_out_ratio)) 
-total_margin_ex_cash<-sum(portfolio_summary$margin)-portfolio_summary$margin[4]
+total_margin_ex_cash <-sum(portfolio_summary$margin)-portfolio_summary$margin[4]
 total_margin_incl_cash <- sum(portfolio_summary$margin)
 close_out_max_drawdown <- 1-(exposure - close_out)/exposure
 close_out_max_drawdown
@@ -193,6 +193,7 @@ plot(dframe$hypothetical_drawdown,dframe$portfolio_val_scenarios_protected)
 datatable(dframe)
 datatable(portfolio_dframe)
 
+
 #view(portfolio_dframe)
 
 #esquisse::esquisser()
@@ -205,3 +206,11 @@ datatable(portfolio_dframe)
 # 
 # toString(j203_df$rn)
 # j203_df$J203.JO.Close
+
+print(cbind(c(paste("I'm willing to pay ",round(my_price@price)),
+              paste("Standard bank is charging: ",round(price)," with fees of ", round(fees), "at a total cost of ", round(price + fees),sep=" "), ifelse((price+fees) > round(my_price@price),"Too expensive!",paste("Price difference: ", round(my_price@price - price - fees))))))
+number_of_units
+#--------------------------------Minimum variance hedge ratio--------------------------------
+
+
+
